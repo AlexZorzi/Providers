@@ -15,7 +15,7 @@ class Provider extends AbstractProvider
     /**
      * {@inheritdoc}
      */
-    protected $scopes = ['openid goauthentik.io/api profile'];
+    protected $scopes = ['openid goauthentik.io/api profile email'];
 
     /**
      * {@inheritdoc}
@@ -66,8 +66,15 @@ class Provider extends AbstractProvider
     protected function mapUserToObject(array $user)
     {
         return (new User())->setRaw($user)->map([
-            'email'    => $user['sub'],
-            'name'     => $user['name'],
+            'email'    => $user['email'] ?? "",
+            'email_verified' => $user['email_verified'] ?? null,
+            'name'     => $user['name'] ?? "",
+            'given_name' => $user['given_name'] ?? "",
+            'family_name' => $user['family_name'] ?? "",
+            'preferred_username' => $user['preferred_username'] ?? "",
+            'nickname' => $user['nickname'] ?? "",
+            'groups' => $user['groups'] ?? "",
+            'sub' => $user['sub'] ?? "",
         ]);
     }
 
